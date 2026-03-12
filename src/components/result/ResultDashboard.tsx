@@ -4,6 +4,7 @@ import { useCalculator } from '@/store/useCalculator'
 import { formatKoreanMoney, formatNumber } from '@/lib/calculator'
 import AssetChart from './AssetChart'
 import TaxComparison from './TaxComparison'
+import AdBanner from '@/components/AdBanner'
 
 export default function ResultDashboard() {
   const { result, input, setStep, setShowFeedback } = useCalculator()
@@ -66,10 +67,8 @@ export default function ResultDashboard() {
         <AssetChart projections={result.projections} retireAge={input.targetRetireAge} />
       </div>
 
-      {/* 광고 영역 (플레이스홀더) */}
-      <div className="bg-slate-100 rounded-xl p-4 text-center">
-        <p className="text-xs text-slate-400">📢 광고 영역</p>
-      </div>
+      {/* 광고 - 차트 아래 */}
+      <AdBanner format="rectangle" className="rounded-xl" />
 
       {/* 세금 비교 (킬러 피처) */}
       <TaxComparison result={result} />
@@ -97,6 +96,9 @@ export default function ResultDashboard() {
           </p>
         </div>
       </div>
+
+      {/* 광고 - 건보료 비교 아래 */}
+      <AdBanner format="horizontal" className="rounded-xl" />
 
       {/* 액션 버튼 */}
       <div className="space-y-3">
