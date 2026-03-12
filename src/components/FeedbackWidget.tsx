@@ -3,7 +3,11 @@
 import { useState } from 'react'
 import { useCalculator } from '@/store/useCalculator'
 
-const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/g74cn8ki'
+// Google Forms 연동 설정
+// TODO: 폼 생성 후 실제 entry ID로 교체
+const GOOGLE_FORM_ACTION = '' // 예: https://docs.google.com/forms/d/e/XXXXX/formResponse
+const ENTRY_FEEDBACK_TYPE = '' // 예: entry.123456789
+const ENTRY_FEEDBACK_MESSAGE = '' // 예: entry.987654321
 
 export default function FeedbackWidget() {
   const { showFeedback, setShowFeedback } = useCalculator()
@@ -11,26 +15,41 @@ export default function FeedbackWidget() {
   const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
+  const feedbackTypeLabel = {
+    feature: '기능 요청',
+    bug: '버그 신고',
+    other: '기타',
+  }
+
   const handleSubmit = () => {
     if (!message.trim()) return
 
-    // Google Forms 또는 간단한 서버리스 함수로 전송
-    // MVP에서는 콘솔 로그 + localStorage에 저장
-    const feedback = {
-      type: feedbackType,
-      message: message.trim(),
-      timestamp: new Date().toISOString(),
-      userAgent: typeof window !== 'undefined' ? window.navigator.userAgent : '',
+    // Google Forms로 전송
+    if (GOOGLE_FORM_ACTION && ENTRY_FEEDBACK_TYPE && ENTRY_FEEDBACK_MESSAGE) {
+      const formData = new URLSearchParams()
+      formData.append(ENTRY_FEEDBACK_TYPE, feedbackTypeLabel[feedbackType])
+      formData.append(ENTRY_FEEDBACK_MESSAGE, message.trim())
+
+      fetch(GOOGLE_FORM_ACTION, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString(),
+      }).catch(() => {})
     }
 
-    // localStorage에 피드백 저장
+    // localStorage 백업 (Google Forms 미설정 시 폴백)
     try {
+      const feedback = {
+        type: feedbackType,
+        message: message.trim(),
+        timestamp: new Date().toISOString(),
+      }
       const existing = JSON.parse(localStorage.getItem('fire-feedback') || '[]')
       existing.push(feedback)
       localStorage.setItem('fire-feedback', JSON.stringify(existing))
     } catch {}
 
-    console.log('[Feedback]', feedback)
     setSubmitted(true)
   }
 
@@ -101,19 +120,6 @@ export default function FeedbackWidget() {
               >
                 보내기
               </button>
-
-              {/* 카톡 오픈채팅 */}
-              <div className="mt-4 pt-4 border-t border-slate-100 text-center">
-                <p className="text-xs text-slate-400 mb-2">더 자세한 이야기를 나누고 싶다면?</p>
-                <a
-                  href={KAKAO_OPEN_CHAT_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-yellow-400 text-yellow-900 px-4 py-2 rounded-xl text-sm font-medium hover:bg-yellow-500 transition-all"
-                >
-                  💬 카카오톡 오픈채팅 참여
-                </a>
-              </div>
             </>
           ) : (
             /* 감사 메시지 */

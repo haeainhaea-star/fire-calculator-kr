@@ -128,25 +128,40 @@ export default function Home() {
       <Footer />
       <FeedbackWidget />
 
-      {/* Floating Feedback Button */}
-      <FloatingFeedbackButton />
+      {/* Floating Buttons (결과 화면 전용) */}
+      <FloatingButtons />
     </main>
   )
 }
 
-function FloatingFeedbackButton() {
+const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/g74cn8ki'
+
+function FloatingButtons() {
   const { setShowFeedback, showFeedback, step } = useCalculator()
 
   // 결과 화면에서만 표시
   if (step !== 5 || showFeedback) return null
 
   return (
-    <button
-      onClick={() => setShowFeedback(true)}
-      className="fixed bottom-6 right-6 bg-primary-600 text-white w-12 h-12 rounded-full shadow-lg shadow-primary-300 flex items-center justify-center text-xl hover:bg-primary-700 active:scale-90 transition-all z-40"
-      aria-label="피드백"
-    >
-      💬
-    </button>
+    <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-40">
+      {/* 카카오톡 오픈채팅 */}
+      <a
+        href={KAKAO_OPEN_CHAT_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="bg-yellow-400 text-yellow-900 w-12 h-12 rounded-full shadow-lg shadow-yellow-200 flex items-center justify-center text-xl hover:bg-yellow-500 active:scale-90 transition-all"
+        aria-label="카카오톡 오픈채팅"
+      >
+        💬
+      </a>
+      {/* 피드백 */}
+      <button
+        onClick={() => setShowFeedback(true)}
+        className="bg-primary-600 text-white w-12 h-12 rounded-full shadow-lg shadow-primary-300 flex items-center justify-center text-xl hover:bg-primary-700 active:scale-90 transition-all"
+        aria-label="피드백"
+      >
+        ✍️
+      </button>
+    </div>
   )
 }
