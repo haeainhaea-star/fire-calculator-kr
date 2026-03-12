@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { useCalculator } from '@/store/useCalculator'
 
 // Google Forms 연동 설정
-// TODO: 폼 생성 후 실제 entry ID로 교체
-const GOOGLE_FORM_ACTION = '' // 예: https://docs.google.com/forms/d/e/XXXXX/formResponse
-const ENTRY_FEEDBACK_TYPE = '' // 예: entry.123456789
-const ENTRY_FEEDBACK_MESSAGE = '' // 예: entry.987654321
+const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdlS8-Z6-qcvuqeL4fOxLP_5Al3qAaOmy8Olx1Mpg-6y1Zhfw/formResponse'
+const ENTRY_FEEDBACK_TYPE = 'entry.1430907765'
+const ENTRY_FEEDBACK_MESSAGE = 'entry.1135738735'
 
 export default function FeedbackWidget() {
   const { showFeedback, setShowFeedback } = useCalculator()
