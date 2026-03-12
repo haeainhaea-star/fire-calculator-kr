@@ -9,15 +9,28 @@ interface TaxComparisonProps {
 export default function TaxComparison({ result }: TaxComparisonProps) {
   return (
     <div className="bg-white rounded-2xl p-5 shadow-sm">
-      <h3 className="text-sm font-bold text-slate-700 mb-4">
+      <h3 className="text-sm font-bold text-slate-700 mb-3">
         💰 배당소득 vs 자가배당 세금 비교
       </h3>
+
+      {/* 용어 설명 */}
+      <div className="bg-slate-50 rounded-xl p-3 mb-4 space-y-1.5">
+        <p className="text-xs text-slate-600">
+          <strong className="text-red-500">배당소득</strong> — 배당 ETF/주식에서 배당금을 받는 방식 (배당소득세 15.4% + 건보료)
+        </p>
+        <p className="text-xs text-slate-600">
+          <strong className="text-green-600">자가배당</strong> — 해외 성장 ETF를 필요한 만큼 매도하는 방식 (양도세 22%, 250만 공제, 건보료 없음)
+        </p>
+      </div>
 
       {/* 비교 테이블 */}
       <div className="grid grid-cols-2 gap-3">
         {/* 배당소득 */}
         <div className="bg-red-50 rounded-xl p-4 space-y-3">
-          <p className="text-sm font-bold text-red-600 text-center">🔴 배당소득</p>
+          <div className="text-center">
+            <p className="text-sm font-bold text-red-600">🔴 배당소득</p>
+            <p className="text-[10px] text-red-400 mt-0.5">배당 ETF/주식</p>
+          </div>
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-slate-500">소득세</span>
@@ -43,7 +56,10 @@ export default function TaxComparison({ result }: TaxComparisonProps) {
 
         {/* 자가배당 */}
         <div className="bg-green-50 rounded-xl p-4 space-y-3">
-          <p className="text-sm font-bold text-green-600 text-center">🟢 자가배당</p>
+          <div className="text-center">
+            <p className="text-sm font-bold text-green-600">🟢 자가배당</p>
+            <p className="text-[10px] text-green-500 mt-0.5">해외 ETF 매도</p>
+          </div>
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-slate-500">양도세</span>
