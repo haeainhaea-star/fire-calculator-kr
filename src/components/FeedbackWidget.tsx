@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useCalculator } from '@/store/useCalculator'
 
-const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/gXXXXXXX' // TODO: 실제 오픈채팅 URL로 교체
+const KAKAO_OPEN_CHAT_URL = 'https://open.kakao.com/o/g74cn8ki'
 
 export default function FeedbackWidget() {
   const { showFeedback, setShowFeedback } = useCalculator()
