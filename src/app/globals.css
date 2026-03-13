@@ -100,3 +100,13 @@ input[type='number'] {
 .animate-slide-up {
   animation: slideUp 0.4s ease-out;
 }
+
+/* 모바일 드로어 슬라이드 인 */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.25s ease-out;
+}

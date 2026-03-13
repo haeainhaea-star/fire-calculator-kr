@@ -1,16 +1,19 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import Link from 'next/link'
 import { useCalculator } from '@/store/useCalculator'
 import { formatKoreanMoney, formatNumber } from '@/lib/calculator'
 import { trackEvent } from '@/lib/analytics'
 import AssetChart from './AssetChart'
 import TaxComparison from './TaxComparison'
 import AdBanner from '@/components/AdBanner'
+import ShareModal from '@/components/share/ShareModal'
 
 export default function ResultDashboard() {
   const { result, input, setStep, setShowFeedback } = useCalculator()
   const tracked = useRef(false)
+  const [showShare, setShowShare] = useState(false)
 
   useEffect(() => {
     if (result && !tracked.current) {
@@ -114,8 +117,35 @@ export default function ResultDashboard() {
       {/* 광고 - 건보료 비교 아래 */}
       <AdBanner format="horizontal" className="rounded-xl" />
 
+      {/* 관련 콘텐츠 링크 */}
+      <div className="grid grid-cols-2 gap-3">
+        <Link
+          href="/savings-rate"
+          className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all text-center"
+        >
+          <span className="text-xl">📊</span>
+          <p className="text-xs font-bold text-slate-700 mt-1">저축률 올리면 얼마나 빨라질까?</p>
+        </Link>
+        <Link
+          href="/salary"
+          className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-all text-center"
+        >
+          <span className="text-xl">💰</span>
+          <p className="text-xs font-bold text-slate-700 mt-1">2026 연봉별 FIRE 비교</p>
+        </Link>
+      </div>
+
       {/* 액션 버튼 */}
       <div className="space-y-3">
+        <button
+          onClick={() => {
+            trackEvent('share_modal_open')
+            setShowShare(true)
+          }}
+          className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl py-4 font-semibold text-base hover:from-orange-600 hover:to-red-600 active:scale-[0.98] transition-all"
+        >
+          📤 결과 공유하기
+        </button>
         <button
           onClick={() => {
             trackEvent('recalculate')
@@ -132,6 +162,15 @@ export default function ResultDashboard() {
           💬 피드백 남기기
         </button>
       </div>
+
+      {/* 공유 모달 */}
+      {showShare && (
+        <ShareModal
+          input={input}
+          result={result}
+          onClose={() => setShowShare(false)}
+        />
+      )}
     </div>
   )
 }

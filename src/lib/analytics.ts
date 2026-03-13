@@ -14,6 +14,19 @@ type AnalyticsEvent =
   | 'kakao_chat_click'
   | 'quick_calc_view'
   | 'quick_to_detail'
+  // 공유 이벤트
+  | 'share_kakao'
+  | 'share_twitter'
+  | 'share_copy_link'
+  | 'share_save_image'
+  | 'share_modal_open'
+  // 페이지별 이벤트
+  | 'faq_view'
+  | 'faq_item_click'
+  | 'salary_calc_view'
+  | 'salary_fire_calc'
+  | 'savings_rate_view'
+  | 'savings_rate_change'
 
 interface EventParams {
   [key: string]: string | number | boolean | undefined

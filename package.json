@@ -5,11 +5,14 @@
   "scripts": {
     "dev": "next dev --port 3030",
     "build": "next build",
+    "postbuild": "next-sitemap",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "next": "^14.2.0",
+    "next-sitemap": "^4.2.3",
     "react": "^18.3.0",
     "react-dom": "^18.3.0",
     "recharts": "^2.12.0",
