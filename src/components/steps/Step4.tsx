@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useCalculator } from '@/store/useCalculator'
 import SliderInput from '@/components/SliderInput'
 import { calcSideIncomeAssetValue, formatKoreanMoney } from '@/lib/calculator'
+import { trackEvent } from '@/lib/analytics'
 
 export default function Step4() {
   const { input, updateInput, setStep, runCalculation } = useCalculator()
@@ -12,6 +13,11 @@ export default function Step4() {
   const sideAssetValue = calcSideIncomeAssetValue(input.sideIncome, input.withdrawalRate)
 
   const handleCalculate = () => {
+    trackEvent('calculation_done', {
+      strategy: input.withdrawalStrategy,
+      side_income: input.sideIncome,
+      has_pension: input.monthlyPension > 0,
+    })
     runCalculation()
     setStep(5) // 5 = 결과 화면
   }

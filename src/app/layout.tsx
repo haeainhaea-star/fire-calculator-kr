@@ -35,6 +35,21 @@ export default function RootLayout({
           crossOrigin="anonymous"
           strategy="beforeInteractive"
         />
+        {/* Google Analytics 4 */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-7QH436XWJN"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-7QH436XWJN', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
       </head>
       <body className="min-h-screen bg-slate-50">
         <div className="mx-auto max-w-screen-md">

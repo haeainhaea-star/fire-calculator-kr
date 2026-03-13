@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useCalculator } from '@/store/useCalculator'
+import { trackEvent } from '@/lib/analytics'
 
 // Google Forms 연동 설정
 const GOOGLE_FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLSdlS8-Z6-qcvuqeL4fOxLP_5Al3qAaOmy8Olx1Mpg-6y1Zhfw/formResponse'
@@ -22,6 +23,7 @@ export default function FeedbackWidget() {
 
   const handleSubmit = () => {
     if (!message.trim()) return
+    trackEvent('feedback_submit', { type: feedbackType })
 
     // Google Forms로 전송
     if (GOOGLE_FORM_ACTION && ENTRY_FEEDBACK_TYPE && ENTRY_FEEDBACK_MESSAGE) {

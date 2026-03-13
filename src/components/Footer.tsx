@@ -13,10 +13,10 @@ export default function Footer() {
         </div>
         <div className="text-center space-y-2">
           <p className="text-xs text-slate-400">
-            © 2024 직장인 FIRE 계산기 · 100% 무료 · 데이터 수집 없음
+            © 2024 직장인 FIRE 계산기 · 100% 무료
           </p>
           <p className="text-xs text-slate-400">
-            🔒 모든 계산은 브라우저에서 처리됩니다
+            🔒 모든 계산은 브라우저에서 처리됩니다 · 익명 이용 통계 수집 (GA)
           </p>
         </div>
       </div>

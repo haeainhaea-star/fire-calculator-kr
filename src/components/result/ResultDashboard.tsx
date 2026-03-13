@@ -1,13 +1,27 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useCalculator } from '@/store/useCalculator'
 import { formatKoreanMoney, formatNumber } from '@/lib/calculator'
+import { trackEvent } from '@/lib/analytics'
 import AssetChart from './AssetChart'
 import TaxComparison from './TaxComparison'
 import AdBanner from '@/components/AdBanner'
 
 export default function ResultDashboard() {
   const { result, input, setStep, setShowFeedback } = useCalculator()
+  const tracked = useRef(false)
+
+  useEffect(() => {
+    if (result && !tracked.current) {
+      tracked.current = true
+      trackEvent('result_view', {
+        years_to_fire: result.yearsToFire,
+        success_rate: result.successRate,
+        strategy: input.withdrawalStrategy,
+      })
+    }
+  }, [result, input.withdrawalStrategy])
 
   if (!result) return null
 
@@ -103,7 +117,10 @@ export default function ResultDashboard() {
       {/* 액션 버튼 */}
       <div className="space-y-3">
         <button
-          onClick={() => setStep(1)}
+          onClick={() => {
+            trackEvent('recalculate')
+            setStep(1)
+          }}
           className="w-full bg-primary-600 text-white rounded-xl py-4 font-semibold text-base hover:bg-primary-700 active:scale-[0.98] transition-all"
         >
           🔄 다시 계산하기

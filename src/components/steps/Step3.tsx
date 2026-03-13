@@ -2,6 +2,7 @@
 
 import { useCalculator } from '@/store/useCalculator'
 import SliderInput from '@/components/SliderInput'
+import { trackEvent } from '@/lib/analytics'
 
 export default function Step3() {
   const { input, updateInput, setStep } = useCalculator()
@@ -82,7 +83,10 @@ export default function Step3() {
           ← 이전
         </button>
         <button
-          onClick={() => setStep(4)}
+          onClick={() => {
+            trackEvent('step_complete', { step: 3, step_name: 'investment_strategy', strategy: input.withdrawalStrategy })
+            setStep(4)
+          }}
           className="flex-[2] bg-primary-600 text-white rounded-xl py-4 font-semibold text-base hover:bg-primary-700 active:scale-[0.98] transition-all"
         >
           다음: 부가 옵션 →

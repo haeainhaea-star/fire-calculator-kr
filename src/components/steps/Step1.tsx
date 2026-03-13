@@ -2,6 +2,7 @@
 
 import { useCalculator } from '@/store/useCalculator'
 import SliderInput from '@/components/SliderInput'
+import { trackEvent } from '@/lib/analytics'
 
 export default function Step1() {
   const { input, updateInput, setStep } = useCalculator()
@@ -69,7 +70,10 @@ export default function Step1() {
       </div>
 
       <button
-        onClick={() => setStep(2)}
+        onClick={() => {
+          trackEvent('step_complete', { step: 1, step_name: 'basic_info' })
+          setStep(2)
+        }}
         className="w-full bg-primary-600 text-white rounded-xl py-4 font-semibold text-base hover:bg-primary-700 active:scale-[0.98] transition-all"
       >
         다음: 은퇴 목표 →

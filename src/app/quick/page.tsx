@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import SliderInput from '@/components/SliderInput'
 import { calcFireNumber, calcYearsToFire, calcSideIncomeAssetValue, formatKoreanMoney, type CalculatorInput } from '@/lib/calculator'
+import { trackEvent } from '@/lib/analytics'
 
 const defaultQuickInput = {
   monthlyExpense: 250,
@@ -16,7 +17,15 @@ const defaultQuickInput = {
 
 export default function QuickCalculator() {
   const [input, setInput] = useState(defaultQuickInput)
+  const tracked = useRef(false)
   const update = (partial: Partial<typeof input>) => setInput({ ...input, ...partial })
+
+  useEffect(() => {
+    if (!tracked.current) {
+      tracked.current = true
+      trackEvent('quick_calc_view')
+    }
+  }, [])
 
   const withdrawalRate = 3.5
   const fireNumber = calcFireNumber(input.monthlyExpense, withdrawalRate)
@@ -131,6 +140,7 @@ export default function QuickCalculator() {
         {/* 상세 분석 CTA */}
         <a
           href="/"
+          onClick={() => trackEvent('quick_to_detail')}
           className="block w-full bg-primary-600 text-white rounded-xl py-4 font-semibold text-base text-center hover:bg-primary-700 active:scale-[0.98] transition-all"
         >
           🔍 세금·건보료까지 상세 분석 →

@@ -3,6 +3,7 @@
 import { useCalculator } from '@/store/useCalculator'
 import SliderInput from '@/components/SliderInput'
 import { calcFireNumber, formatKoreanMoney } from '@/lib/calculator'
+import { trackEvent } from '@/lib/analytics'
 
 export default function Step2() {
   const { input, updateInput, setStep } = useCalculator()
@@ -53,7 +54,10 @@ export default function Step2() {
           ← 이전
         </button>
         <button
-          onClick={() => setStep(3)}
+          onClick={() => {
+            trackEvent('step_complete', { step: 2, step_name: 'retirement_goal' })
+            setStep(3)
+          }}
           className="flex-[2] bg-primary-600 text-white rounded-xl py-4 font-semibold text-base hover:bg-primary-700 active:scale-[0.98] transition-all"
         >
           다음: 투자 전략 →

@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import { trackEvent } from '@/lib/analytics'
 import FeedbackWidget from '@/components/FeedbackWidget'
 import ProgressBar from '@/components/ProgressBar'
 import Step1 from '@/components/steps/Step1'
@@ -73,7 +73,10 @@ function Landing() {
 
       {/* CTA */}
       <button
-        onClick={() => setStep(1)}
+        onClick={() => {
+          trackEvent('calculator_start', { source: 'landing' })
+          setStep(1)
+        }}
         className="w-full mt-8 bg-gradient-to-r from-primary-600 to-blue-700 text-white rounded-2xl py-4 font-bold text-base hover:from-primary-700 hover:to-blue-800 active:scale-[0.98] transition-all shadow-lg shadow-primary-200"
       >
         무료로 계산 시작하기 →
@@ -149,6 +152,7 @@ function FloatingButtons() {
         href={KAKAO_OPEN_CHAT_URL}
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() => trackEvent('kakao_chat_click')}
         className="bg-yellow-400 text-yellow-900 w-12 h-12 rounded-full shadow-lg shadow-yellow-200 flex items-center justify-center text-xl hover:bg-yellow-500 active:scale-90 transition-all"
         aria-label="카카오톡 오픈채팅"
       >
