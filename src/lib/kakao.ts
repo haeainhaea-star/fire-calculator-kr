@@ -4,6 +4,7 @@
 import { SITE_URL } from './metadata'
 import type { CalculatorInput, CalculatorResult } from './calculator'
 import { formatKoreanMoney } from './calculator'
+import { getShareUrl } from './share'
 
 const KAKAO_JS_KEY = '518fe85e8475987c6c4f7eccf5faf299'
 
@@ -29,6 +30,7 @@ export function shareToKakao(input: CalculatorInput, result: CalculatorResult): 
 
   const fireAge = input.age + result.yearsToFire
   const savingsRate = Math.round((input.monthlySaving / input.monthlyIncome) * 100)
+  const shareUrl = getShareUrl(input, result)
 
   window.Kakao!.Share.sendDefault({
     objectType: 'feed',
@@ -37,16 +39,16 @@ export function shareToKakao(input: CalculatorInput, result: CalculatorResult): 
       description: `월 ${input.monthlySaving}만원 저축(저축률 ${savingsRate}%)으로 ${result.yearsToFire}년 후 조기은퇴 · 필요 자금 ${formatKoreanMoney(result.fireNumber)}원`,
       imageUrl: `${SITE_URL}/og-image.png`,
       link: {
-        mobileWebUrl: SITE_URL,
-        webUrl: SITE_URL,
+        mobileWebUrl: shareUrl,
+        webUrl: shareUrl,
       },
     },
     buttons: [
       {
-        title: '나도 계산해보기',
+        title: '나도 FIRE 나이 계산해보기',
         link: {
-          mobileWebUrl: SITE_URL,
-          webUrl: SITE_URL,
+          mobileWebUrl: shareUrl,
+          webUrl: shareUrl,
         },
       },
     ],

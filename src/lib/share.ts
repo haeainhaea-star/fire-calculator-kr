@@ -29,9 +29,9 @@ export function getShareMessage(input: CalculatorInput, result: CalculatorResult
 /** 트위터 공유 Intent URL */
 export function getTwitterShareUrl(input: CalculatorInput, result: CalculatorResult): string {
   const text = getShareText(input, result)
-  const url = SITE_URL
+  const shareUrl = getShareUrl(input, result)
   const hashtags = 'FIRE,파이어족,조기은퇴,재테크'
-  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}&hashtags=${hashtags}`
+  return `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}&hashtags=${hashtags}`
 }
 
 /** 클립보드에 복사 */
