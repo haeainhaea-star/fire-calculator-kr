@@ -37,7 +37,9 @@ export function shareToKakao(input: CalculatorInput, result: CalculatorResult): 
     content: {
       title: `나는 ${fireAge}세에 FIRE 달성 가능! 🔥`,
       description: `월 ${input.monthlySaving}만원 저축(저축률 ${savingsRate}%)으로 ${result.yearsToFire}년 후 조기은퇴 · 필요 자금 ${formatKoreanMoney(result.fireNumber)}원`,
-      imageUrl: `${SITE_URL}/og-image.png`,
+      imageUrl: `${SITE_URL}/opengraph-image`,
+      imageWidth: 1200,
+      imageHeight: 630,
       link: {
         mobileWebUrl: shareUrl,
         webUrl: shareUrl,
@@ -74,6 +76,8 @@ interface KakaoShareOptions {
     title: string
     description: string
     imageUrl: string
+    imageWidth?: number
+    imageHeight?: number
     link: {
       mobileWebUrl: string
       webUrl: string
