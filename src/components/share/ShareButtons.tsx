@@ -4,20 +4,17 @@ import { trackEvent } from '@/lib/analytics'
 
 interface ShareButtonsProps {
   onKakao?: () => void
-  onTwitter: () => void
   onCopyLink: () => void
   kakaoAvailable?: boolean
 }
 
 const buttons = [
   { key: 'kakao', icon: '💬', label: '카카오톡', color: 'bg-yellow-400 text-yellow-900' },
-  { key: 'twitter', icon: '𝕏', label: 'X(트위터)', color: 'bg-slate-800 text-white' },
   { key: 'link', icon: '🔗', label: '링크 복사', color: 'bg-slate-100 text-slate-700' },
 ] as const
 
 export default function ShareButtons({
   onKakao,
-  onTwitter,
   onCopyLink,
   kakaoAvailable = false,
 }: ShareButtonsProps) {
@@ -29,10 +26,6 @@ export default function ShareButtons({
           onKakao()
         }
         break
-      case 'twitter':
-        trackEvent('share_twitter')
-        onTwitter()
-        break
       case 'link':
         trackEvent('share_copy_link')
         onCopyLink()
@@ -41,7 +34,7 @@ export default function ShareButtons({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid grid-cols-2 gap-2">
       {buttons.map((btn) => {
         const isDisabled = btn.key === 'kakao' && !kakaoAvailable
         return (

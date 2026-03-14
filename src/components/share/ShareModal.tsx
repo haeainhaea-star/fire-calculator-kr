@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import type { CalculatorInput, CalculatorResult } from '@/lib/calculator'
-import { getShareCardData, getShareUrl, getShareMessage, getTwitterShareUrl, copyToClipboard } from '@/lib/share'
+import { getShareCardData, getShareMessage, copyToClipboard } from '@/lib/share'
 import { initKakao, isKakaoReady, shareToKakao } from '@/lib/kakao'
 import { trackEvent } from '@/lib/analytics'
 import ShareCard from './ShareCard'
@@ -21,7 +21,6 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
   const [kakaoReady, setKakaoReady] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
   const shareData = getShareCardData(input, result)
-  const shareUrl = getShareUrl(input, result)
 
   // Kakao SDK 초기화
   useEffect(() => {
@@ -45,10 +44,6 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
     setToastMsg(msg)
     setShowToast(true)
   }, [])
-
-  const handleTwitter = () => {
-    window.open(getTwitterShareUrl(input, result), '_blank', 'width=600,height=400')
-  }
 
   const handleCopyLink = async () => {
     const shareMessage = getShareMessage(input, result)
@@ -97,7 +92,6 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
             {/* 공유 버튼들 */}
             <ShareButtons
               onKakao={handleKakao}
-              onTwitter={handleTwitter}
               onCopyLink={handleCopyLink}
               kakaoAvailable={kakaoReady}
             />
