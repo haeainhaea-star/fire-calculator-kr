@@ -46,6 +46,12 @@ export default function RootLayout({
             });
           `}
         </Script>
+        {/* Kakao SDK */}
+        <Script
+          src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className="min-h-screen bg-slate-50">
         <JsonLd data={getWebApplicationSchema()} />

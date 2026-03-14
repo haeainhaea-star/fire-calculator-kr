@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import type { CalculatorInput, CalculatorResult } from '@/lib/calculator'
 import { getShareCardData, getShareUrl, getTwitterShareUrl, copyToClipboard, captureAndDownload } from '@/lib/share'
+import { initKakao, isKakaoReady, shareToKakao } from '@/lib/kakao'
 import { trackEvent } from '@/lib/analytics'
 import ShareCard from './ShareCard'
 import ShareButtons from './ShareButtons'
@@ -17,9 +18,28 @@ interface ShareModalProps {
 export default function ShareModal({ input, result, onClose }: ShareModalProps) {
   const [toastMsg, setToastMsg] = useState('')
   const [showToast, setShowToast] = useState(false)
+  const [kakaoReady, setKakaoReady] = useState(false)
   const cardRef = useRef<HTMLDivElement>(null)
   const shareData = getShareCardData(input, result)
   const shareUrl = getShareUrl(input, result)
+
+  // Kakao SDK 초기화
+  useEffect(() => {
+    const tryInit = () => {
+      if (initKakao()) {
+        setKakaoReady(true)
+      }
+    }
+    // SDK가 아직 로드되지 않았을 수 있으므로 재시도
+    tryInit()
+    if (!isKakaoReady()) {
+      const timer = setInterval(() => {
+        tryInit()
+        if (isKakaoReady()) clearInterval(timer)
+      }, 500)
+      return () => clearInterval(timer)
+    }
+  }, [])
 
   const showNotification = useCallback((msg: string) => {
     setToastMsg(msg)
@@ -44,6 +64,10 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
     } else {
       showNotification('이미지 저장에 실패했습니다')
     }
+  }
+
+  const handleKakao = () => {
+    shareToKakao(input, result)
   }
 
   return (
@@ -82,15 +106,12 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
 
             {/* 공유 버튼들 */}
             <ShareButtons
+              onKakao={handleKakao}
               onTwitter={handleTwitter}
               onCopyLink={handleCopyLink}
               onSaveImage={handleSaveImage}
-              kakaoAvailable={false}
+              kakaoAvailable={kakaoReady}
             />
-
-            <p className="text-xs text-slate-400 text-center">
-              카카오톡 공유는 앱 키 설정 후 이용 가능합니다
-            </p>
           </div>
         </div>
       </div>
