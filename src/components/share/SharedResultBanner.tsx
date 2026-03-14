@@ -11,13 +11,10 @@ interface SharedData {
   years: number
 }
 
-interface SharedResultBannerProps {
-  onStart: () => void
-}
-
-export default function SharedResultBanner({ onStart }: SharedResultBannerProps) {
+export default function SharedResultBanner() {
   const searchParams = useSearchParams()
   const [data, setData] = useState<SharedData | null>(null)
+  const [dismissed, setDismissed] = useState(false)
 
   useEffect(() => {
     const age = searchParams.get('age')
@@ -39,10 +36,10 @@ export default function SharedResultBanner({ onStart }: SharedResultBannerProps)
     }
   }, [searchParams])
 
-  if (!data) return null
+  if (!data || dismissed) return null
 
   return (
-    <div className="mx-4 mt-6 animate-fade-in">
+    <div className="mx-4 mt-4 mb-2 animate-fade-in">
       {/* 친구 결과 카드 */}
       <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 text-white relative overflow-hidden">
         {/* 배경 장식 */}
@@ -67,30 +64,22 @@ export default function SharedResultBanner({ onStart }: SharedResultBannerProps)
             저축률 {data.rate}%
           </div>
         </div>
-      </div>
 
-      {/* CTA */}
-      <button
-        onClick={() => {
-          trackEvent('shared_link_cta_click')
-          // URL 파라미터 제거
-          window.history.replaceState({}, '', '/')
-          onStart()
-        }}
-        className="w-full mt-4 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-2xl py-4 font-bold text-base hover:from-orange-600 hover:to-red-600 active:scale-[0.98] transition-all shadow-lg shadow-orange-200 animate-pulse-subtle"
-      >
-        나도 내 FIRE 나이 알아보기 →
-      </button>
+        {/* CTA 버튼 — 카드 안에 배치 */}
+        <button
+          onClick={() => {
+            trackEvent('shared_link_cta_click')
+            window.history.replaceState({}, '', '/')
+            setDismissed(true)
+          }}
+          className="w-full mt-5 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-xl py-3.5 font-bold text-sm hover:from-orange-600 hover:to-red-600 active:scale-[0.98] transition-all animate-pulse-subtle"
+        >
+          나도 내 FIRE 나이 알아보기 →
+        </button>
 
-      <p className="text-center text-xs text-slate-400 mt-2">
-        30초면 충분해요 · 100% 무료
-      </p>
-
-      {/* 구분선 */}
-      <div className="flex items-center gap-3 mt-6 mb-2">
-        <div className="flex-1 h-px bg-slate-200" />
-        <span className="text-xs text-slate-400">또는</span>
-        <div className="flex-1 h-px bg-slate-200" />
+        <p className="text-center text-xs text-slate-400 mt-2">
+          30초면 충분해요 · 100% 무료
+        </p>
       </div>
     </div>
   )

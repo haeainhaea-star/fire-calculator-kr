@@ -112,14 +112,12 @@ export default function Home() {
     <main className="pb-8">
       <Header />
 
-      {step === 0 && (
-        <>
-          <Suspense fallback={null}>
-            <SharedResultBanner onStart={() => setStep(1)} />
-          </Suspense>
-          <Landing />
-        </>
-      )}
+      {/* 공유 링크 방문 시 친구 결과 배너 (step 무관, URL 파라미터 있을 때만 표시) */}
+      <Suspense fallback={null}>
+        <SharedResultBanner />
+      </Suspense>
+
+      {step === 0 && <Landing />}
 
       {step >= 1 && step <= 4 && (
         <div className="pt-2 pb-4">
