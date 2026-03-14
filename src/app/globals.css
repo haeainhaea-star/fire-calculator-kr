@@ -110,3 +110,13 @@ input[type='number'] {
 .animate-slide-in-right {
   animation: slideInRight 0.25s ease-out;
 }
+
+/* CTA 버튼 부드러운 펄스 */
+@keyframes pulseSubtle {
+  0%, 100% { box-shadow: 0 4px 14px rgba(249, 115, 22, 0.3); }
+  50% { box-shadow: 0 4px 20px rgba(249, 115, 22, 0.5); }
+}
+
+.animate-pulse-subtle {
+  animation: pulseSubtle 2s ease-in-out infinite;
+}

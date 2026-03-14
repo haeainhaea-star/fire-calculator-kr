@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react'
 import type { CalculatorInput, CalculatorResult } from '@/lib/calculator'
-import { getShareCardData, getShareUrl, getTwitterShareUrl, copyToClipboard, captureAndDownload } from '@/lib/share'
+import { getShareCardData, getShareUrl, getShareMessage, getTwitterShareUrl, copyToClipboard } from '@/lib/share'
 import { initKakao, isKakaoReady, shareToKakao } from '@/lib/kakao'
 import { trackEvent } from '@/lib/analytics'
 import ShareCard from './ShareCard'
@@ -51,19 +51,9 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
   }
 
   const handleCopyLink = async () => {
-    const ok = await copyToClipboard(shareUrl)
+    const shareMessage = getShareMessage(input, result)
+    const ok = await copyToClipboard(shareMessage)
     showNotification(ok ? '링크가 복사되었습니다!' : '복사에 실패했습니다')
-  }
-
-  const handleSaveImage = async () => {
-    if (!cardRef.current) return
-    showNotification('이미지 생성 중...')
-    const ok = await captureAndDownload(cardRef.current, `fire-result-${shareData.fireAge}.png`)
-    if (ok) {
-      showNotification('이미지가 저장되었습니다!')
-    } else {
-      showNotification('이미지 저장에 실패했습니다')
-    }
   }
 
   const handleKakao = () => {
@@ -109,7 +99,6 @@ export default function ShareModal({ input, result, onClose }: ShareModalProps) 
               onKakao={handleKakao}
               onTwitter={handleTwitter}
               onCopyLink={handleCopyLink}
-              onSaveImage={handleSaveImage}
               kakaoAvailable={kakaoReady}
             />
           </div>

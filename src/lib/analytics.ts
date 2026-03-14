@@ -18,7 +18,6 @@ type AnalyticsEvent =
   | 'share_kakao'
   | 'share_twitter'
   | 'share_copy_link'
-  | 'share_save_image'
   | 'share_modal_open'
   // 페이지별 이벤트
   | 'faq_view'
@@ -27,6 +26,9 @@ type AnalyticsEvent =
   | 'salary_fire_calc'
   | 'savings_rate_view'
   | 'savings_rate_change'
+  // 공유 그로스 루프
+  | 'shared_link_visit'
+  | 'shared_link_cta_click'
 
 interface EventParams {
   [key: string]: string | number | boolean | undefined

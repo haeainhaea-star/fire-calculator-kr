@@ -1,5 +1,6 @@
 'use client'
 
+import { Suspense } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { trackEvent } from '@/lib/analytics'
@@ -10,6 +11,7 @@ import Step2 from '@/components/steps/Step2'
 import Step3 from '@/components/steps/Step3'
 import Step4 from '@/components/steps/Step4'
 import ResultDashboard from '@/components/result/ResultDashboard'
+import SharedResultBanner from '@/components/share/SharedResultBanner'
 import { useCalculator } from '@/store/useCalculator'
 
 function Landing() {
@@ -104,13 +106,20 @@ function Landing() {
 }
 
 export default function Home() {
-  const { step } = useCalculator()
+  const { step, setStep } = useCalculator()
 
   return (
     <main className="pb-8">
       <Header />
 
-      {step === 0 && <Landing />}
+      {step === 0 && (
+        <>
+          <Suspense fallback={null}>
+            <SharedResultBanner onStart={() => setStep(1)} />
+          </Suspense>
+          <Landing />
+        </>
+      )}
 
       {step >= 1 && step <= 4 && (
         <div className="pt-2 pb-4">

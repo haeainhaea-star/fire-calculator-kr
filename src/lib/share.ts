@@ -16,7 +16,14 @@ export function getShareUrl(input: CalculatorInput, result: CalculatorResult): s
 /** 트위터 공유 텍스트 생성 */
 export function getShareText(input: CalculatorInput, result: CalculatorResult): string {
   const savingsRate = Math.round((input.monthlySaving / input.monthlyIncome) * 100)
-  return `나는 ${result.fireAge}세에 FIRE 달성 가능! 🔥\n저축률 ${savingsRate}%로 ${result.yearsToFire}년 후 조기은퇴\n\n너의 FIRE 나이는?`
+  return `나는 ${result.fireAge}세에 FIRE 달성 가능! 🔥\n저축률 ${savingsRate}%로 ${result.yearsToFire}년 후 조기은퇴\n\n너의 FIRE 나이는? 👉`
+}
+
+/** 링크 복사용 공유 메시지 (URL + CTA 포함) */
+export function getShareMessage(input: CalculatorInput, result: CalculatorResult): string {
+  const savingsRate = Math.round((input.monthlySaving / input.monthlyIncome) * 100)
+  const url = getShareUrl(input, result)
+  return `나는 ${result.fireAge}세에 FIRE 달성 가능! 🔥\n저축률 ${savingsRate}%로 ${result.yearsToFire}년 후 조기은퇴\n\n너도 계산해봐 👉 ${url}`
 }
 
 /** 트위터 공유 Intent URL */
