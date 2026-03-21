@@ -9,6 +9,7 @@ const navItems = [
   { href: '/quick', label: '간편 계산', icon: '⚡', short: '간편' },
   { href: '/salary', label: '연봉 실수령', icon: '💰', short: '연봉' },
   { href: '/savings-rate', label: '저축률', icon: '📊', short: '저축률' },
+  { href: '/blog', label: '블로그', icon: '📝', short: '블로그' },
   { href: '/faq', label: 'FAQ', icon: '❓', short: 'FAQ' },
 ]
 
